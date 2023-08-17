@@ -1,0 +1,324 @@
+.note-card {
+  background-color: #1a1d1e;
+  padding: 1rem;
+  flex-direction: row;
+}
+
+.note-card-heading {
+  color: #c9c9ca;
+  font-size: 1.3rem !important;
+  word-wrap: break-word !important;
+}
+
+.edit-note-btn {
+  margin-bottom: 1rem !important;
+}
+
+#notesContainer {
+  gap: 0.7rem !important;
+  margin: -0.5rem !important;
+}
+
+#addNoteBtn {
+  margin-bottom: 3rem !important;
+}
+
+.border-red-500 {
+  border: 2px solid red;
+}
+
+.border-yellow-500 {
+  border: 2px solid yellow;
+}
+
+.border-green-500 {
+  border: 2px solid green;
+}
+
+#addNoteDialog {
+  background-color: #0000003b;
+  backdrop-filter: blur(6px);
+}
+
+#viewNoteDialog {
+  margin-inline: auto !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100% !important;
+  width: 100% !important;
+  transform: translate(-50%, -50%);
+  position: fixed !important;
+  z-index: 99999999 !important ;
+  background-color: #0000003b;
+  backdrop-filter: blur(6px);
+}
+
+.viewNoteDialogContent {
+  width: 95%;
+  position: fixed;
+  top: 20;
+  background-color: #1a1d1e !important;
+}
+
+#editViewNoteContent {
+  height: 24rem;
+  white-space: break-spaces;
+  background-color: #1a1d1e !important;
+}
+
+#editViewNoteContent:focus {
+  outline: none;
+}
+
+#editViewNoteTitle {
+  background-color: #1a1d1e !important;
+}
+
+#editViewNoteTitle:focus {
+  outline: none;
+}
+
+#viewNoteContent {
+  height: 24rem;
+  white-space: break-spaces;
+}
+
+#viewNoteTitle {
+  color: #c9c9ca;
+}
+
+.addNoteDialogContent {
+  background-color: #1a1d1e;
+}
+
+.UndoToast-message {
+  display: inline-block;
+  margin-right: 10px;
+}
+#undoToastContainer {
+  position: fixed;
+  bottom: 20px;
+  background-color: #26292b;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  z-index: 9999;
+  opacity: 1;
+}
+
+.toast-undo-button {
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.undoProgress-bar {
+  height: 4px;
+  background-color: #ffffff;
+  width: 100%;
+  animation: width 6s linear reverse;
+}
+
+@keyframes width {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.undoToastContainer.bounceInLeft {
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes bounceInLeft {
+  0%,
+  60%,
+  75%,
+  90%,
+  100% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-3000px, 0, 0);
+    transform: translate3d(-3000px, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(25px, 0, 0);
+    transform: translate3d(25px, 0, 0);
+  }
+  75% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+  90% {
+    -webkit-transform: translate3d(5px, 0, 0);
+    transform: translate3d(5px, 0, 0);
+  }
+  100% {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes bounceInLeft {
+  0%,
+  60%,
+  75%,
+  90%,
+  100% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-3000px, 0, 0);
+    transform: translate3d(-3000px, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(25px, 0, 0);
+    transform: translate3d(25px, 0, 0);
+  }
+  75% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+  90% {
+    -webkit-transform: translate3d(5px, 0, 0);
+    transform: translate3d(5px, 0, 0);
+  }
+  100% {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.undoToastContainer.bounceOutRight {
+  -webkit-animation-name: bounceOutRight;
+  animation-name: bounceOutRight;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes bounceOutRight {
+  20% {
+    opacity: 1;
+    -webkit-transform: translate3d(-20px, 0, 0);
+    transform: translate3d(-20px, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(2000px, 0, 0);
+    transform: translate3d(2000px, 0, 0);
+  }
+}
+@keyframes bounceOutRight {
+  20% {
+    opacity: 1;
+    -webkit-transform: translate3d(-20px, 0, 0);
+    transform: translate3d(-20px, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(2000px, 0, 0);
+    transform: translate3d(2000px, 0, 0);
+  }
+}
+
+#noteContent:focus {
+  outline: none;
+  border: none;
+}
+
+#noteTitle:focus {
+  outline: none !important;
+  border: none !important;
+}
+#noteContent {
+  height: 20rem;
+}
+#confirmationDialog {
+  background-color: #1a1d1e23;
+  backdrop-filter: blur(6px) !important;
+}
+
+#cancelDelete:hover {
+  transition: all ease 150ms !important;
+  background-color: #373839 !important;
+}
+.noteSavedLoader {
+  --uib-size: 40px;
+  --uib-speed: 1s;
+  --uib-color: rgb(221, 255, 242);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--uib-size);
+  width: var(--uib-size);
+  animation: rotate01561 var(--uib-speed) linear infinite;
+}
+
+.noteSavedLoader::before,
+.noteSavedLoader::after {
+  content: "";
+  height: 20%;
+  width: 20%;
+  border-radius: 50%;
+  background-color: var(--uib-color);
+}
+
+.noteSavedLoader::before {
+  animation: wobble290123 calc(var(--uib-speed) * 1.25) ease-in-out infinite;
+}
+
+.noteSavedLoader::after {
+  animation: wobble9123 calc(var(--uib-speed) * 1.25) ease-in-out infinite;
+}
+
+.noteSavedLoader::before {
+  margin-right: 10%;
+}
+
+@keyframes wobble9123 {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(calc(var(--uib-size) * 0.2)) scale(1.1);
+  }
+}
+
+@keyframes wobble290123 {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(calc(var(--uib-size) * -0.2)) scale(1.1);
+  }
+}
+
+@keyframes rotate01561 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

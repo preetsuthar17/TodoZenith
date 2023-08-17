@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoZenith</title>
+    <link rel="icon" type="image/x-icon" href="./src/images/favicon.png" />
+    <meta
+      name="description"
+      content="Simplified JavaScript to-do manager with advanced features for effortless task management. Get things done with ease! 💪"
+    />
+    <link rel="canonical" href="https://todozenith.vercel.app" />
+    <meta
+      name="keywords"
+      content="Preet, Preet Suthar, Todo, TodoZenith, preetsuthar, Task management,Daily planner, To-do app,Task organizer,Productivity tools,Priority tasks,Task tracking,Time management,Task scheduling,Project management,Task completion,Task reminders,Task prioritization,Checklist app,Task collaboration,Personal tasks,Work tasks,Goal setting,Task efficiency,Task synchronization,Task notifications,Task categories,Task progress,Task deadlines, Task notes"
+    />
+    <meta name="author" content="Preet Suthar" />
+
+    <meta property="og:title" content="TodoZenith" />
+    <meta
+      property="og:description"
+      content="Simplified JavaScript to-do manager with advanced features for effortless task management. Get things done with ease! 💪"
+    />
+    <meta property="og:url" content="https://todozenith.vercel.app" />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TodoZenith" />
+    <meta
+      name="twitter:description"
+      content="Simplified JavaScript to-do manager with advanced features for effortless task management. Get things done with ease! 💪"
+    />
+  </head>
+  <link href="/dist/output.css" rel="stylesheet" />
+  <link href="./src/styles/todo.css" rel="stylesheet" />
+  <link href="./src/styles/notes.css" rel="stylesheet" />
+  <link href="./src/styles/globals.css" rel="stylesheet" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+
+  <body dark-mode class="mx-auto">
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+      <div class="spinner">
+        <div class="loader"></div>
+        <div class="loader"></div>
+        <div class="loader"></div>
+        <div class="loader"></div>
+        <div class="loader"></div>
+        <div class="loader"></div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="text-gray-600 body-font">
+      <div
+        class="container mx-auto flex flex-wrap flex-col md:flex-row items-center"
+      >
+        <a class="flex title-font font-medium items-center mb-4 md:mb-0">
+          <img
+            src="./src/images/icon.svg"
+            width="90"
+            height="90"
+            alt="TodoZenith"
+          />
+        </a>
+        <nav class="md:ml-auto flex flex-wrap items-center justify-center">
+          <div class="flex items-center justify-center space-x-2">
+            <div
+              id="userNameContainer"
+              class="hidden text-center p-color"
+            ></div>
+          </div>
+          <div id="signInContainer" class="signInContainer hidden">
+            <a
+              id="googleSignInButton"
+              class="inline-flex btn items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base hidden"
+            >
+              <svg
+                width="25"
+                height="25"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 326667 333333"
+                shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                image-rendering="optimizeQuality"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M326667 170370c0-13704-1112-23704-3518-34074H166667v61851h91851c-1851 15371-11851 38519-34074 54074l-311 2071 49476 38329 3428 342c31481-29074 49630-71852 49630-122593m0 0z"
+                  fill="#4285f4"
+                />
+                <path
+                  d="M166667 333333c44999 0 82776-14815 110370-40370l-52593-40742c-14074 9815-32963 16667-57777 16667-44074 0-81481-29073-94816-69258l-1954 166-51447 39815-673 1870c27407 54444 83704 91852 148890 91852z"
+                  fill="#34a853"
+                />
+                <path
+                  d="M71851 199630c-3518-10370-5555-21482-5555-32963 0-11482 2036-22593 5370-32963l-93-2209-52091-40455-1704 811C6482 114444 1 139814 1 166666s6482 52221 17777 74814l54074-41851m0 0z"
+                  fill="#fbbc04"
+                />
+                <path
+                  d="M166667 64444c31296 0 52406 13519 64444 24816l47037-45926C249260 16482 211666 1 166667 1 101481 1 45185 37408 17777 91852l53889 41853c13520-40185 50927-69260 95001-69260m0 0z"
+                  fill="#ea4335"
+                />
+              </svg>
+              &nbsp; Sign in with Google
+            </a>
+          </div>
+          <!-- <div class="hidden" id="signOutContainer">
+            <button
+              id="signOutButton"
+              class="inline-flex btn items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+            >
+              Sign Out
+            </button>
+          </div> -->
+          <div>
+            <a
+              href="https://github.com/preetsuthar17/todozenith"
+              target="_blank"
+              class="inline-flex btn items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-star"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
+                />
+              </svg>
+              &nbsp; Star us on GitHub
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- todos -->
+    <section id="todo-list" class="text-gray-600 body-font">
+      <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-col text-center w-full mb-20">
+          <h1
+            class="todo-list-heading sm:text-3xl text-2xl font-medium mb-4 text-white bolder"
+          >
+            TodoZenith
+          </h1>
+          <p
+            class="lg:w-2/3 p-color mx-auto leading-relaxed text-base"
+            style="margin-bottom: 3rem"
+          >
+            Stay Organized and Never Miss a Beat!
+          </p>
+          <div>
+            <button
+              onclick="showModal()"
+              class="w-fit btn text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg mt-4"
+            >
+              Add To-do
+            </button>
+          </div>
+        </div>
+        <div class="text-center" style="margin-bottom: 2rem">
+          <label
+            for="sortCriteria"
+            class="mr-2 p-color"
+            style="margin-bottom: 2rem"
+            >Sort by:</label
+          >
+          <select id="sortCriteria" class="border rounded px-2 py-1">
+            <option value="priority">Priority</option>
+            <option value="dueDate">Due Date</option>
+          </select>
+        </div>
+
+        <div id="todoList" class="flex flex-wrap -m-2">
+          <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+            <div
+              class="h-full flex items-center border-gray-200 border p-4 rounded-lg"
+            >
+              <div class="flex-grow">
+                <h2 class="text-gray-900 text-lg font-medium">Dummy</h2>
+                <p class="text-gray-500">Dummy</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="todoModal">
+      <div class="todoModalContent">
+        <section id="addTodo" class="text-gray-600 body-font">
+          <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+            <div
+              class="card-background rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
+            >
+              <h2
+                id="formHeading"
+                class="h-color text-2xl form-header title-font mb-5"
+              >
+                Add To-do
+              </h2>
+              <div class="relative mb-4">
+                <label for="name" class="p-color leading-7 text-sm"
+                  >Name*</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  placeholder="Finish Homework 📝"
+                  id="name"
+                  name="name"
+                  class="w-full form-input-color rounded text-base outline-none p-color py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                />
+                <span id="form-warning1">
+                  <p>This field is required!</p>
+                </span>
+              </div>
+              <div class="relative mb-4">
+                <label for="priority" class="p-color leading-7 text-sm"
+                  >Priority*</label
+                >
+                <select
+                  id="priority"
+                  name="priority"
+                  class="form-input-color rounded text-base outline-none p-color py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                >
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <span id="form-warning2">
+                  <p>This field is required!</p>
+                </span>
+              </div>
+              <div class="relative mb-4">
+                <label for="dueDate" class="p-color leading-7 text-sm"
+                  >Due Date</label
+                >
+                <input
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                  class="form-input-color rounded focus:ring-2 text-base outline-none p-color py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                />
+                <span id="form-warning3">
+                  <p>This field is required!</p>
+                </span>
+              </div>
+              <span>
+                <button
+                  onclick=" hideModal()"
+                  class="w-fit mt-2 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 btn rounded text-lg m-4"
+                >
+                  Cancel
+                </button>
+                <button
+                  id="addButton"
+                  onclick="if(validateForm()) { addTodo(); hideModal(); }"
+                  class="w-fit btn text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg m-4"
+                >
+                  Add To-do
+                </button>
+              </span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Notes -->
+
+    <div
+      class="ml-auto mr-auto w-9/12 flex justify-center flex-col text-center align-middle rounded-lg"
+    >
+      <h1 class="text-3xl mb-4 text-center text-white">Notes</h1>
+      <button id="addNoteBtn" class="btn w-fit px-4 py-2 rounded">
+        Add Note
+      </button>
+      <div
+        id="notesContainer"
+        class="flex-row flex-wrap flex justify-center text-left -m-2"
+      ></div>
+    </div>
+
+    <div
+      id="addNoteDialog"
+      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+    >
+      <div
+        class="addNoteDialogContent flex flex-col justify-center align-middle p-6 rounded w-11/12"
+      >
+        <h2 class="text-2xl mb-4 form-header">Add Note</h2>
+        <form id="addNoteForm">
+          <input
+            autocomplete="off"
+            type="text"
+            id="noteTitle"
+            class="w-full form-input-color p-color rounded py-2 px-3 mb-2"
+            placeholder="Title"
+            required
+          />
+          <textarea
+            id="noteContent"
+            class="w-full form-input-color p-color rounded py-2 px-3"
+            placeholder="Content"
+            required
+          ></textarea>
+          <div>
+            <button id="cancelAddNote" class="btn mr-2 px-4 py-2 rounded">
+              Cancel
+            </button>
+            <button type="submit" class="btn px-4 py-2 rounded">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div
+      id="viewNoteDialog"
+      class="hidden viewNoteDialog flex justify-center items-center"
+    >
+      <div class="viewNoteDialogContent p-6 rounded-lg mt-8 max-w-md">
+        <h2 class="text-2xl mb-8" id="viewNoteTitle"></h2>
+        <input
+          autocomplete="off"
+          id="editViewNoteTitle"
+          class="h-color text-xl w-full mb-2 p-1 hidden"
+        />
+        <p
+          id="viewNoteContent"
+          class="p-color mt-2 overflow-y-scroll select-text"
+        ></p>
+        <textarea
+          id="editViewNoteContent"
+          class="p-color w-full p-1 hidden"
+          rows="6"
+        ></textarea>
+        <div class="flex justify-end mt-4">
+          <button id="closeViewNote" class="btn px-4 py-2 rounded">
+            Close
+          </button>
+        </div>
+        <span id="autoSaved" class="text-green-500 opacity-0">Saved!</span>
+      </div>
+    </div>
+
+    <div
+      id="confirmationDialog"
+      class="hidden fixed inset-0 w-11/12 ml-auto mr-auto flex items-center justify-center"
+    >
+      <div style="background-color: #1a1d1e" class="p-8 rounded-lg">
+        <p class="text-xl mb-4 p-color">
+          Are you sure you want to delete this note?
+        </p>
+        <div class="flex justify-end">
+          <button
+            id="confirmDelete"
+            class="mr-2 transition-all border-red-500 text-white px-4 py-2 opacity-30 cursor-not-allowed disabled rounded hover:bg-red-500"
+          >
+            Delete
+          </button>
+          <button
+            id="cancelDelete"
+            style="background-color: #26292b"
+            class="px-4 py-2 rounded p-color"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-gray-600 body-font">
+      <div
+        class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col"
+      >
+        <a
+          class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900"
+        >
+          <span class="text-xl todo-footer">TodoZenith</span>
+        </a>
+        <p
+          id="footer-text"
+          class="text-sm p-color sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4"
+        ></p>
+        <span
+          class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start"
+        >
+          <a
+            href="https://github.com/preetsuthar17"
+            target="_blank"
+            class="p-color"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+            <span class="hidden">none</span>
+          </a>
+        </span>
+      </div>
+    </footer>
+
+    <!-- Toasts -->
+    <div class="toastContainer">
+      <div id="toastPopup" class="toast-popup">
+        <span id="toastMessage" class="toast-message"></span>
+        <button id="undoButton" class="toast-undo-button">Undo</button>
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <!-- Emojis animation -->
+    <div id="emojiContainer" class="emoji-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
+    <script src="./config.js"></script>
+    <script src="./src/scripts/notes.js"></script>
+    <script src="./src/scripts/todo.js"></script>
+  </body>
+</html>

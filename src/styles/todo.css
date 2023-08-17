@@ -1,0 +1,300 @@
+.card-background {
+  background-color: #1a1d1e !important;
+}
+#todoList {
+  justify-content: center;
+  gap: 0.7rem;
+}
+#todoModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.419);
+  backdrop-filter: blur(7px) !important;
+  display: none;
+}
+.todoModalContent {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  padding: 20px;
+  border-radius: 8px;
+}
+.todo-card {
+  background-color: #1a1d1e;
+  border: 2px solid #2b2f31;
+  transition: 0.2s all ease-in-out;
+}
+.todo-header {
+  font-size: 1.2rem;
+  color: #c9c9ca;
+  margin-bottom: 0.8rem;
+}
+.todo-footer {
+  color: #ecedee;
+}
+.todo-list-heading {
+  font-size: 2rem;
+}
+#todoList {
+  justify-content: center;
+  gap: 0.7rem;
+}
+.delete-text-card {
+  padding: 0.2rem;
+  transition: 0.3s all ease;
+}
+.delete-text-card:hover {
+  background-color: rgba(255, 0, 0, 0.066);
+}
+
+.completed {
+  text-decoration: line-through;
+}
+input[type="date"]::-moz-selection {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+input[type="date"]::selection {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+.form-header {
+  font-weight: 500 !important;
+  color: #fff;
+}
+.form-input-color {
+  background-color: #3b4144 !important;
+}
+.form-checkbox {
+  margin-right: 1rem;
+}
+select {
+  outline: 0 !important;
+  border: none !important;
+  background-color: #26292b !important;
+  color: #adafb1 !important;
+}
+.signInContainer {
+  justify-content: center !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.emoji-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 9999;
+}
+.emoji-container span {
+  position: absolute;
+  font-size: 4rem;
+  animation: confettiPopUp 5s;
+}
+@keyframes confettiPopUp {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(-90vh);
+    opacity: 0;
+  }
+}
+.p-color {
+  color: #adafb1 !important;
+}
+.h-color {
+  color: #fff !important;
+}
+.bolder {
+  font-weight: 900;
+}
+#form-warning1 {
+  display: none;
+}
+#form-warning1 p {
+  color: red;
+}
+#form-warning2 {
+  display: none;
+}
+#form-warning2 p {
+  color: red;
+}
+#form-warning3 {
+  display: none;
+}
+#form-warning3 p {
+  color: red;
+}
+.m-4 {
+  margin: 4px;
+}
+.priority-color {
+  color: #adafb1 !important;
+}
+.header-p {
+  color: #ffffffc9;
+}
+.toastContainer {
+  display: flex;
+  justify-content: left;
+}
+
+.toast-popup {
+  position: fixed;
+  bottom: 20px;
+  background-color: #26292b;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: none;
+}
+
+.toast-message {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.toast-undo-button {
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: #ffffff;
+  width: 100%;
+  animation: width 6s linear reverse;
+}
+
+@keyframes width {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.toast-popup.bounceInLeft {
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes bounceInLeft {
+  0%,
+  60%,
+  75%,
+  90%,
+  100% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-3000px, 0, 0);
+    transform: translate3d(-3000px, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(25px, 0, 0);
+    transform: translate3d(25px, 0, 0);
+  }
+  75% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+  90% {
+    -webkit-transform: translate3d(5px, 0, 0);
+    transform: translate3d(5px, 0, 0);
+  }
+  100% {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes bounceInLeft {
+  0%,
+  60%,
+  75%,
+  90%,
+  100% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-3000px, 0, 0);
+    transform: translate3d(-3000px, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(25px, 0, 0);
+    transform: translate3d(25px, 0, 0);
+  }
+  75% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+  90% {
+    -webkit-transform: translate3d(5px, 0, 0);
+    transform: translate3d(5px, 0, 0);
+  }
+  100% {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.toast-popup.bounceOutRight {
+  -webkit-animation-name: bounceOutRight;
+  animation-name: bounceOutRight;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes bounceOutRight {
+  20% {
+    opacity: 1;
+    -webkit-transform: translate3d(-20px, 0, 0);
+    transform: translate3d(-20px, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(2000px, 0, 0);
+    transform: translate3d(2000px, 0, 0);
+  }
+}
+@keyframes bounceOutRight {
+  20% {
+    opacity: 1;
+    -webkit-transform: translate3d(-20px, 0, 0);
+    transform: translate3d(-20px, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(2000px, 0, 0);
+    transform: translate3d(2000px, 0, 0);
+  }
+}
+#notes-form-dialog {
+  display: none;
+}
