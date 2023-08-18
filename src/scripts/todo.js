@@ -246,15 +246,16 @@ function renderTodos() {
       } else {
         dueDate.innerHTML = formatDate(todo.dueDate);
       }
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      deleteButton.classList.add("text-red-500", "mt-2", "delete-text-card");
-      deleteButton.onclick = () => deleteTodo(index);
 
       const editButton = document.createElement("button");
       editButton.textContent = "Edit";
-      editButton.classList.add("p-color", "ml-2");
+      editButton.classList.add("p-color", "mr-2", "btn");
       editButton.onclick = () => editTodo(index);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.classList.add("text-red-500", "mt-2", "delete-btn");
+      deleteButton.onclick = () => deleteTodo(index);
 
       label.appendChild(checkbox);
       label.appendChild(span);
@@ -262,8 +263,8 @@ function renderTodos() {
       content.appendChild(label);
       content.appendChild(priority);
       content.appendChild(dueDate);
-      content.appendChild(deleteButton);
       content.appendChild(editButton);
+      content.appendChild(deleteButton);
 
       card.appendChild(content);
 

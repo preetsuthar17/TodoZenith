@@ -68,6 +68,7 @@ input[type="date"]::selection {
 }
 .form-input-color {
   background-color: #3b4144 !important;
+  border-radius: 4px !important;
 }
 .form-checkbox {
   margin-right: 1rem;
