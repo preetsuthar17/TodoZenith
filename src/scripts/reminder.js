@@ -76,47 +76,40 @@ function scheduleNotifications() {
 
     if (timeUntilReminderMinusHour > 0) {
       setTimeout(() => {
-        sendPushNotification(`Reminder: ${reminder.name} - 1 hour before`);
+        showReminderNotification(`Reminder: ${reminder.name} - 1 hour before`);
       }, timeUntilReminderMinusHour);
     }
 
     if (timeUntilReminderMinusTenMinutes > 0) {
       setTimeout(() => {
-        sendPushNotification(`Reminder: ${reminder.name} - 10 minutes before`);
+        showReminderNotification(
+          `10 Minutes left for your reminder: ${reminder.name} `
+        );
       }, timeUntilReminderMinusTenMinutes);
     }
 
     if (timeUntilReminderMinusFiveMinutes > 0) {
       setTimeout(() => {
-        sendPushNotification(`Reminder: ${reminder.name} - 5 minutes before`);
+        showReminderNotification(
+          `5 Minutes left for your reminder: ${reminder.name}`
+        );
       }, timeUntilReminderMinusFiveMinutes);
     }
 
     if (timeUntilReminder > 0) {
       setTimeout(() => {
-        sendPushNotification(`Reminder: ${reminder.name}`);
+        showReminderNotification(`It's time! ${reminder.name}`);
       }, timeUntilReminder);
     }
   }
 }
 
-function sendPushNotification(message) {
-  if ("serviceWorker" in navigator && "PushManager" in window) {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.pushManager.getSubscription().then((subscription) => {
-        if (subscription) {
-          const options = {
-            body: message,
-            data: {
-              text: message,
-            },
-          };
+function showReminderNotification(message) {
+  const options = {
+    body: message,
+  };
 
-          registration.showNotification("Reminder", options);
-        }
-      });
-    });
-  }
+  new Notification("Ding dong! 🔔", options);
 }
 
 function saveRemindersToLocalStorage() {
