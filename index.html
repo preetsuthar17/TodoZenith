@@ -483,12 +483,11 @@
     <script src="./src/scripts/reminder.js"></script>
     <script src="./src/scripts/notes.js"></script>
     <script src="./src/scripts/todo.js"></script>
-    <script src="./src//scripts/service-worker.js"></script>
 
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
-          .register("../../src/scripts/service-worker.js")
+          .register("./src/scripts/service-worker.js")
           .then((registration) => {
             console.log(
               "Service Worker registered with scope:",

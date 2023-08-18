@@ -76,13 +76,13 @@ function scheduleNotifications() {
 
     if (timeUntilReminderMinusHour > 0) {
       setTimeout(() => {
-        showReminderNotification(`Reminder: ${reminder.name} - 1 hour before`);
+        sendPushNotification(`Reminder: ${reminder.name} - 1 hour before`);
       }, timeUntilReminderMinusHour);
     }
 
     if (timeUntilReminderMinusTenMinutes > 0) {
       setTimeout(() => {
-        showReminderNotification(
+        sendPushNotification(
           `10 Minutes left for your reminder: ${reminder.name} `
         );
       }, timeUntilReminderMinusTenMinutes);
@@ -90,7 +90,7 @@ function scheduleNotifications() {
 
     if (timeUntilReminderMinusFiveMinutes > 0) {
       setTimeout(() => {
-        showReminderNotification(
+        sendPushNotification(
           `5 Minutes left for your reminder: ${reminder.name}`
         );
       }, timeUntilReminderMinusFiveMinutes);
@@ -98,7 +98,7 @@ function scheduleNotifications() {
 
     if (timeUntilReminder > 0) {
       setTimeout(() => {
-        showReminderNotification(`It's time! ${reminder.name}`);
+        sendPushNotification(`It's time! ${reminder.name}`);
       }, timeUntilReminder);
     }
   }
@@ -110,6 +110,27 @@ function showReminderNotification(message) {
   };
 
   new Notification("Ding dong! 🔔", options);
+}
+
+function sendPushNotification(message) {
+  if ("serviceWorker" in navigator && "PushManager" in window) {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.pushManager.getSubscription().then((subscription) => {
+        if (subscription) {
+          fetch("/send-push-notification", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              subscription: subscription,
+              message: message,
+            }),
+          });
+        }
+      });
+    });
+  }
 }
 
 function saveRemindersToLocalStorage() {
