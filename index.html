@@ -383,7 +383,7 @@
     </div>
 
     <!-- Reminder -->
-    <div
+    <!-- <div
       id="reminderDialog"
       class="fixed inset-0 flex items-center justify-center hidden"
     >
@@ -421,7 +421,7 @@
       <button id="openReminderDialog" class="btn px-4 py-2 rounded">
         Add Reminder
       </button>
-      <ul id="reminderList" class="mt-4"></ul>
+      <ul id="reminderList" class="mt-4"></ul> -->
     </div>
 
     <!-- Footer -->
@@ -480,24 +480,24 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
-    <script src="./src/scripts/reminder.js"></script>
+    <!-- <script src="./src/scripts/reminder.js"></script> -->
     <script src="./src/scripts/notes.js"></script>
     <script src="./src/scripts/todo.js"></script>
 
     <script>
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-          .register("./src/scripts/service-worker.js")
-          .then((registration) => {
-            console.log(
-              "Service Worker registered with scope:",
-              registration.scope
-            );
-          })
-          .catch((error) => {
-            console.error("Service Worker registration failed:", error);
-          });
-      }
+      // if ("serviceWorker" in navigator) {
+      //   navigator.serviceWorker
+      //     .register("./src/scripts/service-worker.js")
+      //     .then((registration) => {
+      //       console.log(
+      //         "Service Worker registered with scope:",
+      //         registration.scope
+      //       );
+      //     })
+      //     .catch((error) => {
+      //       console.error("Service Worker registration failed:", error);
+      //     });
+      // }
     </script>
   </body>
 </html>
