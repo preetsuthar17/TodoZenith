@@ -132,13 +132,14 @@ function loadRemindersFromLocalStorage() {
 }
 
 // Events
-
 openReminderBtn.addEventListener("click", () => {
   reminderDialog.classList.remove("hidden");
+  resetReminderForm();
 });
 
 cancelReminderBtn.addEventListener("click", () => {
   reminderDialog.classList.add("hidden");
+  resetReminderForm();
 });
 
 saveReminderBtn.addEventListener("click", () => {
@@ -147,8 +148,10 @@ saveReminderBtn.addEventListener("click", () => {
 
   if (!name) {
     reminderFormWarning1.classList.remove("hidden");
+    reminderFormWarning2.classList.add("hidden");
     return;
   } else if (!time) {
+    reminderFormWarning1.classList.add("hidden");
     reminderFormWarning2.classList.remove("hidden");
     return;
   }
@@ -163,10 +166,11 @@ saveReminderBtn.addEventListener("click", () => {
   updateReminderList();
   scheduleNotifications();
 
-  reminderFormWarning2.classList.add("hidden");
   reminderFormWarning1.classList.add("hidden");
+  reminderFormWarning2.classList.add("hidden");
 
   reminderDialog.classList.add("hidden");
+  resetReminderForm();
 });
 
 reminderList.addEventListener("click", (event) => {
@@ -179,6 +183,20 @@ reminderList.addEventListener("click", (event) => {
     deleteReminder(index);
   }
 });
+
+function resetReminderForm() {
+  reminderName.value = "";
+  reminderTime.value = "";
+}
+
+function editReminder(index) {
+  const reminder = reminders[index];
+  reminderName.value = reminder.name;
+  reminderTime.value = new Date(reminder.time).toISOString().slice(0, -1);
+  reminders.splice(index, 1);
+  updateReminderList();
+  reminderDialog.classList.remove("hidden");
+}
 
 loadRemindersFromLocalStorage();
 scheduleNotifications();
