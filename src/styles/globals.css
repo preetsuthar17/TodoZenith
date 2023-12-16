@@ -136,7 +136,7 @@ body[dark-mode] {
   transition: 0.2s all ease-in-out;
   width: fit !important;
   border-radius: 0.25rem !important;
-  margin: 0.5rem auto !important;
+  margin: 0.5rem 0.3rem !important;
   cursor: pointer !important;
 }
 
