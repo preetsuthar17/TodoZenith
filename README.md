@@ -18,3 +18,5 @@
 ![Notes](https://github.com/preetsuthar17/TodoZenith/assets/75468116/37afbf25-9eb6-4291-9801-8b1f323c07d6)
 
 </div>
+
+<p>Created with 💖 by Preet Suthar</p>
