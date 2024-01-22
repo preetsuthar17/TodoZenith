@@ -387,7 +387,6 @@ function createTodoCard(todo) {
     if (!isNaN(parsedDueDate.getTime())) {
       dueDateSection = `<p class="text-gray-500">Due Date: ${parsedDueDate.toDateString()}</p>`;
     } else {
-      // Handle invalid dueDate
       dueDateSection = `<p class="text-gray-500">Invalid Due Date</p>`;
     }
   }
@@ -528,56 +527,6 @@ function showConfetti() {
 function updateAndRenderTodos() {
   getTodosFromLocalStorage();
   renderTodos();
-
-  todos.forEach((todo) => {
-    if (todo.dueDate !== "No Due Date") {
-      const dueDate = new Date(todo.dueDate);
-      sendDueDateNotification(todo.name, dueDate);
-    }
-  });
-}
-
-if (Notification.permission !== "granted") {
-  Notification.requestPermission();
-}
-
-function sendDueDateNotification(todoName, dueDate) {
-  if (Notification.permission === "granted") {
-    const currentDate = new Date();
-    const timeDifference = dueDate.getTime() - currentDate.getTime();
-
-    if (timeDifference <= 0) {
-      const dueOptions = {
-        body: `❗ Due Today: Your task "${todoName}" is due today. Due on ${formatDate(
-          dueDate
-        )}`,
-      };
-      const dueNotification = new Notification("Due Date Reminder", dueOptions);
-    } else if (timeDifference <= 86400000) {
-      // 1 day in milliseconds
-      const reminderOptions = {
-        body: `⚠️ Reminder: Your task "${todoName}" is due in less than 24 hours. Due on ${formatDate(
-          dueDate
-        )}`,
-      };
-      const reminderNotification = new Notification(
-        "Due Date Reminder",
-        reminderOptions
-      );
-
-      setTimeout(() => {
-        const dueOptions = {
-          body: `❗ Due Today: Your task "${todoName}" is due today. Due on ${formatDate(
-            dueDate
-          )}`,
-        };
-        const dueNotification = new Notification(
-          "Due Date Reminder",
-          dueOptions
-        );
-      }, timeDifference);
-    }
-  }
 }
 
 function sortTodos(todos) {
@@ -619,9 +568,6 @@ undoButton.addEventListener("click", () => {
 });
 
 window.addEventListener("load", renderTodos());
-
-// googleSignInButton.addEventListener("click", signInWithGoogle);
-// signOutButton.addEventListener("click", signOut);
 
 getTodosFromLocalStorage();
 renderTodos();
