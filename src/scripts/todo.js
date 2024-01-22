@@ -582,8 +582,6 @@ function sendDueDateNotification(todoName, dueDate) {
 
 function sortTodos(todos) {
   return todos.sort((a, b) => {
-    // Add your sorting logic here
-    // For example, sorting by due date
     const dateA = new Date(a.dueDate);
     const dateB = new Date(b.dueDate);
     return dateA - dateB;
