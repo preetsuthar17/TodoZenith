@@ -322,3 +322,10 @@
     transform: rotate(360deg);
   }
 }
+
+#addNoteBtn {
+  display: flex !important;
+  margin: auto;
+  justify-content: center !important;
+  align-items: center !important;
+}

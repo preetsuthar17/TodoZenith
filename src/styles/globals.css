@@ -29,6 +29,8 @@ body {
 
 body[dark-mode] {
   background-color: #151718;
+  width: 80% !important;
+  margin-inline: auto;
 }
 
 ::-webkit-scrollbar {
@@ -122,8 +124,9 @@ body[dark-mode] {
   transition: 0.3s all ease-in-out;
   width: fit !important;
   border-radius: 0.25rem !important;
-  margin: 0.5rem auto;
+  margin: 0.5rem 0;
   cursor: pointer !important;
+  font-size: 13px !important;
 }
 .btn:hover {
   background-color: #373839 !important;
@@ -136,6 +139,7 @@ body[dark-mode] {
   transition: 0.2s all ease-in-out;
   width: fit !important;
   border-radius: 0.25rem !important;
+  font-size: 13px !important;
   margin: 0.5rem 0.3rem !important;
   cursor: pointer !important;
 }
