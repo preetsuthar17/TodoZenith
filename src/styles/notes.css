@@ -48,7 +48,6 @@
   position: fixed !important;
   z-index: 99999999 !important ;
   background-color: #0000003b;
-  backdrop-filter: blur(6px);
 }
 
 .viewNoteDialogContent {
