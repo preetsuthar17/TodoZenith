@@ -305,6 +305,8 @@ select {
   display: flex;
   gap: 1rem;
   margin: 2rem !important;
+  flex-wrap: wrap !important;
+
   align-items: center !important;
 }
 
@@ -319,18 +321,19 @@ select {
 
 #groupButtonsContainer button {
   margin: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
   padding: 0.3rem 1.2rem !important;
 }
 
 .grouping-section {
-  margin: auto;
+  margin: auto !important;
   display: flex;
+  flex-wrap: wrap !important;
   flex-direction: column;
-  width: 23.4rem;
 }
 
 .create-group-btn {
   display: flex;
   margin: 10px 0 30px 0 !important;
 }
-  
