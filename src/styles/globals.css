@@ -29,7 +29,11 @@ body {
 
 body[dark-mode] {
   background-color: #151718;
-  width: 80% !important;
+}
+
+footer {
+  margin-top: 10rem;
+  width: 80%;
   margin-inline: auto;
 }
 
@@ -154,4 +158,56 @@ textarea {
 
 input:focus {
   outline: none !important;
+}
+.bottom-bar-pill {
+  display: flex;
+  width: fit-content !important;
+  margin-inline: auto !important;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.9rem 1.2rem;
+  backdrop-filter: blur(40px);
+  background-color: rgba(0, 0, 0, 0.326);
+  border-radius: 50rem;
+  border: 2px solid #cccccc2e;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.bottom-bar-pill button {
+  border-radius: 50rem !important;
+  margin-bottom: 0 !important;
+  width: auto !important;
+  height: fit-content !important;
+  margin: auto !important;
+}
+
+.align-middle {
+  display: flex !important;
+  align-items: center !important;
+}
+hr {
+  opacity: 10%;
+  width: 80%;
+  margin-inline: auto !important;
+  margin: 5rem !important;
+  position: relative;
+  margin-bottom: 1rem !important;
+}
+
+header > div {
+  align-items: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin-bottom: 5rem !important;
+}
+
+header > div > a {
+  align-items: center !important;
+  display: flex !important;
+  justify-content: center !important;
 }

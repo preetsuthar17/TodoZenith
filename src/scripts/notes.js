@@ -25,29 +25,36 @@ function renderNotes() {
   let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
   notesContainer.innerHTML = "";
-  notes.forEach((note, index) => {
-    if (note && note.title) {
-      const card = document.createElement("div");
-      card.className = `note-card rounded-lg lg:w-1/3 md:w-1/2 w-full p-4`;
-      card.setAttribute("data-index", index);
-      const deleteNoteBtn = document.getElementById("delete-note-btn");
 
-      card.innerHTML = `
-          <p class="note-card-heading text-lg mb-3">${note.title}</p>
-          <p class="text-gray-600 p-color break-words text-base">${note.content.substring(
-            0,
-            50
-          )}</p>
-          <div class="note-card-buttons">
-            <button id="delete-note-btn" class="delete-note btn" data-index="${index}">Delete</button>
-          </div>`;
-      card.addEventListener("click", () => {
-        openViewNoteDialog(index);
-      });
+  if (notes.length === 0) {
+    const noNotesMessage = document.createElement("p");
+    noNotesMessage.classList.add("p-color");
+    noNotesMessage.textContent = "No notes created!";
+    notesContainer.appendChild(noNotesMessage);
+  } else {
+    notes.forEach((note, index) => {
+      if (note && note.title) {
+        const card = document.createElement("div");
+        card.className = `note-card rounded-lg md:w-1/2 w-1/2 p-4`;
+        card.setAttribute("data-index", index);
 
-      notesContainer.appendChild(card);
-    }
-  });
+        card.innerHTML = `
+            <p class="note-card-heading text-lg mb-3">${note.title}</p>
+            <p class="text-gray-600 p-color break-words text-base">${note.content.substring(
+              0,
+              50
+            )}</p>
+            <div class="note-card-buttons">
+              <button id="delete-note-btn" class="delete-note btn" data-index="${index}">Delete</button>
+            </div>`;
+        card.addEventListener("click", () => {
+          openViewNoteDialog(index);
+        });
+
+        notesContainer.appendChild(card);
+      }
+    });
+  }
 }
 
 function openAddNoteDialog() {

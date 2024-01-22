@@ -175,11 +175,6 @@ function renderTodos(group) {
   let todos = getTodos(group);
   let selectedTodos = todos.filter((todo) => todo.group === group);
 
-  selectedTodos.forEach((todo) => {
-    console.log(
-      `Name: ${todo.name}, Priority: ${todo.priority}, Due Date: ${todo.dueDate}`
-    );
-  });
   const savedSortValue = localStorage.getItem("savedSortValue");
 
   if (savedSortValue) {
@@ -189,109 +184,116 @@ function renderTodos(group) {
   const sortedTodos = sortTodos(todos);
   todoListContainer.innerHTML = "";
 
-  sortedTodos.forEach((todo, index) => {
-    if (todo) {
-      const li = document.createElement("div");
-      li.classList.add("todo-item", "lg:w-1/3", "md:w-1/2", "w-full");
+  if (sortedTodos.length === 0) {
+    const noTodosMessage = document.createElement("p");
+    noTodosMessage.classList.add("p-color");
+    noTodosMessage.textContent = "No todos created!";
+    todoListContainer.appendChild(noTodosMessage);
+  } else {
+    sortedTodos.forEach((todo, index) => {
+      if (todo) {
+        const li = document.createElement("div");
+        li.classList.add("todo-item", "lg:w-1/3", "md:w-1/2", "w-full");
 
-      const card = document.createElement("div");
-      card.classList.add(
-        "todo-card",
-        "h-full",
-        "flex",
-        "flex-col",
-        "rounded-lg",
-        "p-4"
-      );
+        const card = document.createElement("div");
+        card.classList.add(
+          "todo-card",
+          "h-full",
+          "flex",
+          "flex-col",
+          "rounded-lg",
+          "p-4"
+        );
 
-      if (todo.priority === "High") {
-        card.classList.add("border-red-500");
-      } else if (todo.priority === "Medium") {
-        card.classList.add("border-yellow-500");
-      } else {
-        card.classList.add("border-green-500");
-      }
-
-      const content = document.createElement("div");
-      content.classList.add("flex-grow");
-      const label = document.createElement("label");
-      label.classList.add("flex", "items-center", "cursor-pointer");
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.classList.add(
-        "form-checkbox",
-        "todo-header",
-        "rounded",
-        "h-5",
-        "w-5"
-      );
-      checkbox.checked = todo.completed;
-      checkbox.onclick = () => markTodoCompleted(index);
-
-      const span = document.createElement("span");
-      span.classList.add("todo-header", "font-medium", "ml-0");
-      if (todo.completed) {
-        span.classList.add("completed");
-      }
-      span.textContent = todo.name;
-
-      const priority = document.createElement("p");
-      priority.classList.add("priority-color", "text-base");
-      if (todo.priority == "High") {
-        priority.textContent = `- ${todo.priority} priority`;
-      } else if (todo.priority == "Medium") {
-        priority.textContent = `- ${todo.priority} priority`;
-      } else {
-        priority.textContent = `- ${todo.priority} priority`;
-      }
-
-      const dueDate = document.createElement("p");
-      const group = document.createElement("p");
-      group.innerText = `${todo.group || "No group"}`;
-      dueDate.classList.add("text-gray-500", "text-base");
-      if (todo.dueDate) {
-        const formattedDate = formatDate(todo.dueDate);
-
-        if (
-          formattedDate.includes("Overdue") ||
-          formattedDate.includes("Today")
-        ) {
-          dueDate.innerHTML = `<span class="thin-text text-red-500">${formattedDate}</span>`;
+        if (todo.priority === "High") {
+          card.classList.add("border-red-500");
+        } else if (todo.priority === "Medium") {
+          card.classList.add("border-yellow-500");
         } else {
-          dueDate.innerHTML = formattedDate;
+          card.classList.add("border-green-500");
         }
-      } else {
-        dueDate.innerHTML = "No due date";
+
+        const content = document.createElement("div");
+        content.classList.add("flex-grow");
+        const label = document.createElement("label");
+        label.classList.add("flex", "items-center", "cursor-pointer");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add(
+          "form-checkbox",
+          "todo-header",
+          "rounded",
+          "h-5",
+          "w-5"
+        );
+        checkbox.checked = todo.completed;
+        checkbox.onclick = () => markTodoCompleted(index);
+
+        const span = document.createElement("span");
+        span.classList.add("todo-header", "font-medium", "ml-0");
+        if (todo.completed) {
+          span.classList.add("completed");
+        }
+        span.textContent = todo.name;
+
+        const priority = document.createElement("p");
+        priority.classList.add("priority-color", "text-base");
+        if (todo.priority == "High") {
+          priority.textContent = `- ${todo.priority} priority`;
+        } else if (todo.priority == "Medium") {
+          priority.textContent = `- ${todo.priority} priority`;
+        } else {
+          priority.textContent = `- ${todo.priority} priority`;
+        }
+
+        const dueDate = document.createElement("p");
+        const group = document.createElement("p");
+        group.innerText = `${todo.group || "No group"}`;
+        dueDate.classList.add("text-gray-500", "text-base");
+        if (todo.dueDate) {
+          const formattedDate = formatDate(todo.dueDate);
+
+          if (
+            formattedDate.includes("Overdue") ||
+            formattedDate.includes("Today")
+          ) {
+            dueDate.innerHTML = `<span class="thin-text text-red-500">${formattedDate}</span>`;
+          } else {
+            dueDate.innerHTML = formattedDate;
+          }
+        } else {
+          dueDate.innerHTML = "No due date";
+        }
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.classList.add("p-color", "mr-2", "btn");
+        editButton.onclick = () => editTodo(index);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.classList.add("text-red-500", "mt-2", "delete-btn");
+        deleteButton.onclick = () => deleteTodo(index);
+
+        label.appendChild(checkbox);
+        label.appendChild(span);
+
+        content.appendChild(label);
+        content.appendChild(priority);
+        content.appendChild(group);
+        content.appendChild(dueDate);
+        content.appendChild(editButton);
+        content.appendChild(deleteButton);
+
+        card.appendChild(content);
+
+        li.appendChild(card);
+
+        todoListContainer.appendChild(li);
       }
-
-      const editButton = document.createElement("button");
-      editButton.textContent = "Edit";
-      editButton.classList.add("p-color", "mr-2", "btn");
-      editButton.onclick = () => editTodo(index);
-
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      deleteButton.classList.add("text-red-500", "mt-2", "delete-btn");
-      deleteButton.onclick = () => deleteTodo(index);
-
-      label.appendChild(checkbox);
-      label.appendChild(span);
-
-      content.appendChild(label);
-      content.appendChild(priority);
-      content.appendChild(group);
-      content.appendChild(dueDate);
-      content.appendChild(editButton);
-      content.appendChild(deleteButton);
-
-      card.appendChild(content);
-
-      li.appendChild(card);
-
-      todoListContainer.appendChild(li);
-    }
-  });
+    });
+  }
 }
 
 function getTodos(group) {

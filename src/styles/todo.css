@@ -9,6 +9,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 999 !important;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.419);
@@ -20,6 +21,7 @@
   width: 100% !important;
   top: 50%;
   left: 50%;
+  z-index: 999 !important;
   transform: translate(-50%, -50%);
   background-color: transparent;
   padding: 0 0 !important;
@@ -314,7 +316,7 @@ select {
   gap: 1rem;
   margin: 2rem !important;
   flex-wrap: wrap !important;
-
+  flex-direction: row !important;
   align-items: center !important;
 }
 

@@ -55,18 +55,23 @@
 
     <!-- Header -->
     <header class="text-gray-600 body-font">
-      <div
-        class="container mx-auto flex flex-wrap flex-col md:flex-row items-center"
-      >
-        <a class="flex title-font font-medium items-center mb-4 md:mb-0">
+      <div class="container mx-auto">
+        <a
+          class="flex title-font font-medium ""
+        >
           <img
             src="./src/images/icon.svg"
             width="90"
             height="90"
             alt="TodoZenith"
           />
+          <h1
+            class="todo-list-heading sm:text-3xl text-2xl font-medium text-white bolder"
+          >
+            TodoZenith
+          </h1>
         </a>
-        <nav class="md:ml-auto flex flex-wrap items-center justify-center">
+        <!-- <nav class="md:ml-auto flex flex-wrap items-center justify-center">
           <div class="flex items-center justify-center space-x-2">
             <div
               id="userNameContainer"
@@ -95,34 +100,14 @@
               &nbsp; Star us on GitHub
             </a>
           </div>
-        </nav>
+        </nav> -->
       </div>
     </header>
 
     <!-- todo -->
     <section id="todo-list" class="text-gray-600 body-font">
-      <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-col text-center w-full mb-20">
-          <h1
-            class="todo-list-heading sm:text-3xl text-2xl font-medium mb-4 text-white bolder"
-          >
-            TodoZenith
-          </h1>
-          <p
-            class="lg:w-2/3 p-color mx-auto leading-relaxed text-base"
-            style="margin-bottom: 3rem"
-          >
-            Stay Organized and Never Miss a Beat!
-          </p>
-          <div>
-            <button
-              onclick="showModal()"
-              class="w-fit btn text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded mt-4 add-todo-btn"
-            >
-              Add To-do
-            </button>
-          </div>
-        </div>
+      <div class="container px-5 mx-auto">
+        <h3 class="text-2xl mb-4 text-center text-gray-300">Your Todos</h3>
         <div class="text-center grouping-section" style="margin-bottom: 2rem">
           <div>
             <label for="sortCriteria" class="mr-2 p-color">Sort by:</label>
@@ -131,8 +116,13 @@
               <option value="dueDate">Due Date</option>
             </select>
           </div>
-          <p class="mt-8 p-color" style="margin-bottom: -2rem">Catagories</p>
-          <div id="groupButtonsContainer" class="mb-4"></div>
+          <div>
+            <div id="groupButtonsContainer" class="mb-4">
+              <p class="mt-8 p-color" style="margin-bottom: -2rem">
+                Catagories
+              </p>
+            </div>
+          </div>
         </div>
 
         <div id="todoList" class="flex flex-wrap -m-2">
@@ -261,15 +251,27 @@
       </div>
     </div>
 
-    <!-- Notes -->
+    <!-- bottom bar pill -->
+    <div class="bottom-bar-pill">
+      <button
+        onclick="showModal()"
+        class="w-fit btn text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded mt-4 add-todo-btn"
+      >
+        Add To-do
+      </button>
 
-    <div
-      class="ml-auto mr-auto w-9/12 flex justify-center flex-col text-center align-middle rounded-lg"
-    >
-      <h3 class="text-3xl mb-4 text-center text-white">Notes</h3>
       <button id="addNoteBtn" class="btn w-fit px-4 py-2 rounded">
         Add Note
       </button>
+    </div>
+
+    <!-- Notes -->
+    <div
+      class="ml-auto mr-auto w-9/12 flex justify-center flex-col text-center align-middle rounded-lg"
+      style="margin-top: 3rem"
+    >
+      <h3 class="text-2xl mb-4 text-center text-gray-300">Your Notes</h3>
+
       <div
         id="notesContainer"
         class="flex-row flex-wrap flex justify-center text-left -m-2"
