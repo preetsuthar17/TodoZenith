@@ -51,6 +51,7 @@ function addTodo() {
     todos[editingTodoIndex].dueDate = dueDate !== "" ? dueDate : "No Due Date";
     todos[editingTodoIndex].group = selectedGroup || "No groups";
     saveTodosToLocalStorage();
+    renderGroupButtons();
     renderTodos();
     hideModal();
     editingMode = false;
