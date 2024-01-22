@@ -33,7 +33,6 @@
   </head>
   <link href="/dist/output.css" rel="stylesheet" />
   <link href="./src/styles/todo.css" rel="stylesheet" />
-  <link href="./src/styles/reminder.css" rel="stylesheet" />
   <link href="./src/styles/notes.css" rel="stylesheet" />
   <link href="./src/styles/globals.css" rel="stylesheet" />
   <link
@@ -74,50 +73,7 @@
               class="hidden text-center p-color"
             ></div>
           </div>
-          <div id="signInContainer" class="signInContainer hidden">
-            <a
-              id="googleSignInButton"
-              class="inline-flex btn items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base hidden"
-            >
-              <svg
-                width="25"
-                height="25"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 326667 333333"
-                shape-rendering="geometricPrecision"
-                text-rendering="geometricPrecision"
-                image-rendering="optimizeQuality"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-              >
-                <path
-                  d="M326667 170370c0-13704-1112-23704-3518-34074H166667v61851h91851c-1851 15371-11851 38519-34074 54074l-311 2071 49476 38329 3428 342c31481-29074 49630-71852 49630-122593m0 0z"
-                  fill="#4285f4"
-                />
-                <path
-                  d="M166667 333333c44999 0 82776-14815 110370-40370l-52593-40742c-14074 9815-32963 16667-57777 16667-44074 0-81481-29073-94816-69258l-1954 166-51447 39815-673 1870c27407 54444 83704 91852 148890 91852z"
-                  fill="#34a853"
-                />
-                <path
-                  d="M71851 199630c-3518-10370-5555-21482-5555-32963 0-11482 2036-22593 5370-32963l-93-2209-52091-40455-1704 811C6482 114444 1 139814 1 166666s6482 52221 17777 74814l54074-41851m0 0z"
-                  fill="#fbbc04"
-                />
-                <path
-                  d="M166667 64444c31296 0 52406 13519 64444 24816l47037-45926C249260 16482 211666 1 166667 1 101481 1 45185 37408 17777 91852l53889 41853c13520-40185 50927-69260 95001-69260m0 0z"
-                  fill="#ea4335"
-                />
-              </svg>
-              &nbsp; Sign in with Google
-            </a>
-          </div>
-          <!-- <div class="hidden" id="signOutContainer">
-            <button
-              id="signOutButton"
-              class="inline-flex btn items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
-            >
-              Sign Out
-            </button>
-          </div> -->
+
           <div>
             <a
               href="https://github.com/preetsuthar17/todozenith"
@@ -143,7 +99,7 @@
       </div>
     </header>
 
-    <!-- todos -->
+    <!-- todo -->
     <section id="todo-list" class="text-gray-600 body-font">
       <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col text-center w-full mb-20">
@@ -161,23 +117,22 @@
           <div>
             <button
               onclick="showModal()"
-              class="w-fit btn text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded mt-4"
+              class="w-fit btn text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded mt-4 add-todo-btn"
             >
               Add To-do
             </button>
           </div>
         </div>
-        <div class="text-center" style="margin-bottom: 2rem">
-          <label
-            for="sortCriteria"
-            class="mr-2 p-color"
-            style="margin-bottom: 2rem"
-            >Sort by:</label
-          >
-          <select id="sortCriteria" class="border rounded px-2 py-1">
-            <option value="priority">Priority</option>
-            <option value="dueDate">Due Date</option>
-          </select>
+        <div class="text-center grouping-section" style="margin-bottom: 2rem">
+          <div>
+            <label for="sortCriteria" class="mr-2 p-color">Sort by:</label>
+            <select id="sortCriteria" class="border rounded px-2 py-1">
+              <option value="priority">Priority</option>
+              <option value="dueDate">Due Date</option>
+            </select>
+          </div>
+          <p class="mt-8 p-color" style="margin-bottom: -2rem">Catagories</p>
+          <div id="groupButtonsContainer" class="mb-4"></div>
         </div>
 
         <div id="todoList" class="flex flex-wrap -m-2">
@@ -255,9 +210,39 @@
                   <p>This field is required!</p>
                 </span>
               </div>
+              <div>
+                <label for="group" class="p-color leading-7 text-sm"
+                  >New Category</label
+                >
+                <input
+                  type="text"
+                  id="group"
+                  name="group"
+                  class="w-full form-input-color rounded text-base outline-none p-color py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  placeholder="Enter Group Name"
+                />
+              </div>
+              <button
+                onclick="saveGroup()"
+                class="w-fit btn text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg w-fit create-group-btn"
+              >
+                Create Category
+              </button>
+              <div class="relative mb-4">
+                <label for="groupDropdown" class="p-color leading-7 text-sm"
+                  >Category</label
+                >
+                <select
+                  id="groupDropdown"
+                  class="form-input-color rounded text-base outline-none p-color py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  onchange="selectGroup()"
+                >
+                  <option value="" selected>No Group</option>
+                </select>
+              </div>
               <span>
                 <button
-                  onclick=" hideModal()"
+                  onclick="hideModal()"
                   class="w-fit mt-2 border-0 py-2 px-8 delete-btn rounded text-lg m-4"
                 >
                   Cancel
@@ -293,7 +278,7 @@
 
     <div
       id="addNoteDialog"
-      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+      class="hidden flex fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 justify-center items-center"
     >
       <div
         class="addNoteDialogContent flex flex-col justify-center align-middle p-6 rounded w-11/12"
@@ -329,7 +314,7 @@
 
     <div
       id="viewNoteDialog"
-      class="hidden viewNoteDialog flex justify-center items-center"
+      class="hidden viewNoteDialog justify-center items-center flex"
     >
       <div class="viewNoteDialogContent p-6 rounded-lg mt-8">
         <h2 class="text-2xl mb-8" id="viewNoteTitle"></h2>
@@ -358,7 +343,7 @@
 
     <div
       id="confirmationDialog"
-      class="hidden fixed inset-0 w-11/12 ml-auto mr-auto flex items-center justify-center"
+      class="hidden fixed inset-0 w-11/12 ml-auto mr-auto items-center justify-center flex"
     >
       <div style="background-color: #1a1d1e" class="p-8 rounded-lg">
         <p class="text-xl mb-4 p-color">
@@ -380,48 +365,6 @@
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- Reminder -->
-    <!-- <div
-      id="reminderDialog"
-      class="fixed inset-0 flex items-center justify-center hidden"
-    >
-      <div class="reminderDialogContent p-8 rounded-lg shadow-md">
-        <h2 class="text-lg mb-4 h-color">Reminder Details</h2>
-        <input
-          type="text"
-          id="reminderName"
-          autocomplete="off"
-          class="w-full p-2 mb-2 form-input-color p-color"
-          placeholder="Actually attend lecture 😪"
-        />
-        <p id="reminder-form-warning1" class="text-red-500 hidden">
-          This field is required!
-        </p>
-        <input
-          type="datetime-local"
-          id="reminderTime"
-          class="w-full p-2 mb-4 form-input-color p-color"
-        />
-        <p id="reminder-form-warning2" class="text-red-500 hidden">
-          This field is required!
-        </p>
-        <button id="cancelReminderBtn" class="ml-2 delete-btn">Cancel</button>
-        <button id="saveReminderBtn" class="btn px-4 py-2 rounded">
-          Save Reminder
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="reminder-container container mx-auto p-4 flex justify-center flex-col"
-    >
-      <h3 class="text-center h-color mb-4 text-3xl">Reminders</h3>
-      <button id="openReminderDialog" class="btn px-4 py-2 rounded">
-        Add Reminder
-      </button>
-      <ul id="reminderList" class="mt-4"></ul> -->
     </div>
 
     <!-- Footer -->
@@ -475,29 +418,10 @@
     <!-- Emojis animation -->
     <div id="emojiContainer" class="emoji-container"></div>
 
-    <!-- Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
-
     <!-- <script src="./src/scripts/reminder.js"></script> -->
     <script src="./src/scripts/notes.js"></script>
     <script src="./src/scripts/todo.js"></script>
 
-    <script>
-      // if ("serviceWorker" in navigator) {
-      //   navigator.serviceWorker
-      //     .register("./src/scripts/service-worker.js")
-      //     .then((registration) => {
-      //       console.log(
-      //         "Service Worker registered with scope:",
-      //         registration.scope
-      //       );
-      //     })
-      //     .catch((error) => {
-      //       console.error("Service Worker registration failed:", error);
-      //     });
-      // }
-    </script>
+    <script></script>
   </body>
 </html>

@@ -299,3 +299,38 @@ select {
 #notes-form-dialog {
   display: none;
 }
+
+#groupButtonsContainer {
+  justify-content: center;
+  display: flex;
+  gap: 1rem;
+  margin: 2rem !important;
+  align-items: center !important;
+}
+
+#groupButtonsContainer > div {
+  padding: 5px;
+  display: flex;
+  border: 2px solid rgba(255, 255, 255, 0.079);
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+#groupButtonsContainer button {
+  margin: 0 !important;
+  padding: 0.3rem 1.2rem !important;
+}
+
+.grouping-section {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 23.4rem;
+}
+
+.create-group-btn {
+  display: flex;
+  margin: 10px 0 30px 0 !important;
+}
+  

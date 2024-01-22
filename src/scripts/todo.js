@@ -2,10 +2,8 @@ let todos = [];
 let editingTodoIndex = -1;
 let editingMode = false;
 let deletedTodos = [];
-
-// const undoButton = document.getElementById("undoButton");
-// const googleSignInButton = document.getElementById("googleSignInButton");
-// const signOutButton = document.getElementById("signOutButton");
+let groups = JSON.parse(localStorage.getItem("groups")) || [];
+let selectedGroup = null || "No groups";
 
 const year = new Date().getFullYear();
 
@@ -20,6 +18,24 @@ target="_blank"
 
 //// Code for Todo functionality
 
+function saveGroup() {
+  const groupInput = document.getElementById("group");
+  const groupName = groupInput.value.trim();
+
+  if (groupName) {
+    groups.push(groupName);
+    localStorage.setItem("groups", JSON.stringify(groups));
+    groupInput.value = "";
+
+    updateGroupDropdown();
+
+    const groupDropdown = document.getElementById("groupDropdown");
+    groupDropdown.value = groupName;
+
+    selectGroup();
+  }
+}
+
 function addTodo() {
   const nameInput = document.getElementById("name");
   const priorityInput = document.getElementById("priority");
@@ -33,25 +49,32 @@ function addTodo() {
     todos[editingTodoIndex].name = name;
     todos[editingTodoIndex].priority = priority;
     todos[editingTodoIndex].dueDate = dueDate !== "" ? dueDate : "No Due Date";
+    todos[editingTodoIndex].group = selectedGroup || "No groups";
     saveTodosToLocalStorage();
     renderTodos();
     hideModal();
     editingMode = false;
   } else {
     const newTodo = {
-      name,
-      priority,
-      dueDate: dueDate !== "" ? dueDate : "No Due Date",
-      completed: false,
+      name: nameInput.value.trim(),
+      priority: priorityInput.value.trim(),
+      dueDate: dueDateInput.value.trim() || "No Due Date",
+      group: selectedGroup || "No groups",
     };
 
     todos.push(newTodo);
     saveTodosToLocalStorage();
     renderTodos();
+    renderGroupButtons();
+    if (!selectedGroup) {
+      selectedGroup = null;
+      const groupDropdown = document.getElementById("groupDropdown");
+      groupDropdown.value = "";
+    }
   }
 
   nameInput.value = "";
-  priorityInput.value = "Low";
+  priorityInput.value = "High";
   dueDateInput.value = "";
 
   const addButton = document.getElementById("addButton");
@@ -59,8 +82,34 @@ function addTodo() {
 
   const formHeading = document.getElementById("formHeading");
   formHeading.textContent = "Add Todo";
-
   renderTodos();
+}
+
+function updateGroupDropdown() {
+  const groupDropdown = document.getElementById("groupDropdown");
+
+  while (groupDropdown.firstChild) {
+    groupDropdown.removeChild(groupDropdown.firstChild);
+  }
+
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "No group";
+  groupDropdown.appendChild(defaultOption);
+
+  groups.forEach((group) => {
+    const option = document.createElement("option");
+    option.value = group;
+    option.textContent = group;
+    groupDropdown.appendChild(option);
+  });
+}
+
+function selectGroup() {
+  const groupDropdown = document.getElementById("groupDropdown");
+  selectedGroup = groupDropdown.value || null;
+
+  renderTodos(selectedGroup);
 }
 
 function deleteTodo(index) {
@@ -105,6 +154,7 @@ function deleteTodo(index) {
       saveTodosToLocalStorage();
       renderTodos();
     }
+    renderGroupButtons();
   }, 6000);
 }
 
@@ -117,66 +167,28 @@ function markTodoCompleted(index) {
   }
 }
 
-function renderTodos() {
-  const uncompletedTodos = [];
-  const completedTodos = [];
-
-  const todoList = document.getElementById("todoList");
+function renderTodos(group) {
+  const todoListContainer = document.getElementById("todoList");
   const sortCriteriaSelect = document.getElementById("sortCriteria");
 
+  let todos = getTodos(group);
+  let selectedTodos = todos.filter((todo) => todo.group === group);
+
+  selectedTodos.forEach((todo) => {
+    console.log(
+      `Name: ${todo.name}, Priority: ${todo.priority}, Due Date: ${todo.dueDate}`
+    );
+  });
   const savedSortValue = localStorage.getItem("savedSortValue");
+
   if (savedSortValue) {
     sortCriteriaSelect.value = savedSortValue;
   }
 
-  todoList.innerHTML = "";
+  const sortedTodos = sortTodos(todos);
+  todoListContainer.innerHTML = "";
 
-  function sortAndRenderTodos() {
-    const sortCriteria = sortCriteriaSelect.value;
-
-    todos.sort((a, b) => {
-      if (!a || !b) {
-        return 0;
-      }
-      if (sortCriteria === "priority") {
-        const priorityOrder = {
-          High: 1,
-          Medium: 2,
-          Low: 3,
-        };
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      } else if (sortCriteria === "dueDate") {
-        if (a.dueDate === "No Due Date" && b.dueDate === "No Due Date")
-          return 0;
-        if (a.dueDate === "No Due Date") return 1;
-        if (b.dueDate === "No Due Date") return -1;
-        return new Date(a.dueDate) - new Date(b.dueDate);
-      }
-
-      return 0;
-    });
-
-    localStorage.setItem("savedSortValue", sortCriteria);
-    renderTodos();
-  }
-
-  document
-    .getElementById("sortCriteria")
-    .addEventListener("change", sortAndRenderTodos);
-
-  window.addEventListener("load", function () {
-    const savedSortValue = localStorage.getItem("savedSortValue");
-
-    const sortCriteriaSelect = document.getElementById("sortCriteria");
-
-    if (savedSortValue) {
-      sortCriteriaSelect.value = savedSortValue;
-    }
-
-    sortAndRenderTodos();
-  });
-
-  todos.forEach((todo, index) => {
+  sortedTodos.forEach((todo, index) => {
     if (todo) {
       const li = document.createElement("div");
       li.classList.add("todo-item", "lg:w-1/3", "md:w-1/2", "w-full");
@@ -234,17 +246,22 @@ function renderTodos() {
       }
 
       const dueDate = document.createElement("p");
+      const group = document.createElement("p");
+      group.innerText = `${todo.group || "No group"}`;
       dueDate.classList.add("text-gray-500", "text-base");
-      if (formatDate(todo.dueDate).includes("Overdue")) {
-        dueDate.innerHTML = `<span class="thin-text text-red-500">${formatDate(
-          todo.dueDate
-        )}</span>`;
-      } else if (formatDate(todo.dueDate).includes("Today")) {
-        dueDate.innerHTML = `<span class="thin-text text-red-500">${formatDate(
-          todo.dueDate
-        )}</span>`;
+      if (todo.dueDate) {
+        const formattedDate = formatDate(todo.dueDate);
+
+        if (
+          formattedDate.includes("Overdue") ||
+          formattedDate.includes("Today")
+        ) {
+          dueDate.innerHTML = `<span class="thin-text text-red-500">${formattedDate}</span>`;
+        } else {
+          dueDate.innerHTML = formattedDate;
+        }
       } else {
-        dueDate.innerHTML = formatDate(todo.dueDate);
+        dueDate.innerHTML = "No due date";
       }
 
       const editButton = document.createElement("button");
@@ -262,6 +279,7 @@ function renderTodos() {
 
       content.appendChild(label);
       content.appendChild(priority);
+      content.appendChild(group);
       content.appendChild(dueDate);
       content.appendChild(editButton);
       content.appendChild(deleteButton);
@@ -270,9 +288,84 @@ function renderTodos() {
 
       li.appendChild(card);
 
-      todoList.appendChild(li);
+      todoListContainer.appendChild(li);
     }
   });
+}
+
+function getTodos(group) {
+  const allTodos = JSON.parse(localStorage.getItem("todos")) || [];
+  return group ? allTodos.filter((todo) => todo.group === group) : allTodos;
+}
+
+function renderGroupButtons() {
+  const groupButtonsContainer = document.getElementById(
+    "groupButtonsContainer"
+  );
+  groupButtonsContainer.innerHTML = "";
+
+  const allButtonContainer = document.createElement("div");
+  const allButton = document.createElement("button");
+  allButton.textContent = "All";
+  allButton.className = `btn ${
+    selectedGroup === null ? "bg-green-500" : "bg-gray-200"
+  } py-1 rounded`;
+  allButton.onclick = () => {
+    selectedGroup = null;
+    renderTodos(selectedGroup);
+    renderGroupButtons();
+  };
+  allButtonContainer.appendChild(allButton);
+  groupButtonsContainer.appendChild(allButtonContainer);
+
+  groups.forEach((group) => {
+    const buttonContainer = document.createElement("div");
+
+    const button = document.createElement("button");
+    button.textContent = group;
+    button.className = `btn ${
+      selectedGroup === group ? "bg-green-500" : "bg-gray-200"
+    } py-1 rounded`;
+    button.onclick = () => {
+      selectedGroup = group;
+      renderTodos(selectedGroup);
+      renderGroupButtons();
+    };
+
+    const deleteButton = document.createElement("button");
+    deleteButton.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" d="M9 17h2V8H9zm4 0h2V8h-2zm-8 4V6H4V4h5V3h6v1h5v2h-1v15z"/></svg>';
+    deleteButton.classList.add("text-red-500", "ml-2");
+
+    deleteButton.onclick = () => deleteGroup(group);
+
+    buttonContainer.appendChild(button);
+    buttonContainer.appendChild(deleteButton);
+    groupButtonsContainer.appendChild(buttonContainer);
+  });
+}
+
+function deleteGroup(groupToDelete) {
+  if (
+    confirm(`Are you sure you want to delete the group "${groupToDelete}"?`)
+  ) {
+    todos = todos.map((todo) => ({
+      ...todo,
+      group: todo.group === groupToDelete ? "No groups" : todo.group,
+    }));
+
+    const groupIndex = groups.indexOf(groupToDelete);
+    if (groupIndex !== -1) {
+      groups.splice(groupIndex, 1);
+    }
+
+    saveTodosToLocalStorage();
+    localStorage.setItem("groups", JSON.stringify(groups));
+
+    updateGroupDropdown();
+    renderTodos();
+    renderGroupButtons();
+  }
 }
 
 function undoDelete(index) {
@@ -280,6 +373,25 @@ function undoDelete(index) {
   todos.push(deletedTodo);
   saveTodosToLocalStorage();
   renderTodos();
+  renderGroupButtons();
+}
+
+function createTodoCard(todo) {
+  const todoCard = document.createElement("div");
+  todoCard.classList.add("p-2", "lg:w-1/3", "md:w-1/2", "w-full");
+
+  let dueDateSection = "";
+  if (todo.dueDate) {
+    const parsedDueDate = new Date(todo.dueDate);
+    if (!isNaN(parsedDueDate.getTime())) {
+      dueDateSection = `<p class="text-gray-500">Due Date: ${parsedDueDate.toDateString()}</p>`;
+    } else {
+      // Handle invalid dueDate
+      dueDateSection = `<p class="text-gray-500">Invalid Due Date</p>`;
+    }
+  }
+
+  return todoCard;
 }
 
 function onTodoMarked() {
@@ -332,6 +444,7 @@ function saveEditedTodo() {
     hideModal();
     editingTodoIndex = -1;
   }
+  renderGroupButtons();
 }
 
 function saveTodosToLocalStorage() {
@@ -411,79 +524,6 @@ function showConfetti() {
   emojiContainer.style.visibility = "visible";
 }
 
-//// Firebase
-
-// firebase.initializeApp(firebaseConfig);
-
-// function updateUI(user) {
-//   const signInContainer = document.getElementById("signInContainer");
-//   const userNameContainer = document.getElementById("userNameContainer");
-//   const signOutButton = document.getElementById("signOutButton");
-//   const googleSignInButton = document.getElementById("googleSignInButton");
-
-//   if (user) {
-//     signInContainer.style.display = "none";
-//     userNameContainer.style.display = "block";
-//     userNameContainer.innerHTML = `Hello there 👋, ${user.displayName} &nbsp;`;
-//     signOutButton.style.display = "block";
-//     googleSignInButton.style.display = "none";
-//   } else {
-//     signInContainer.style.display = "block";
-//     userNameContainer.style.display = "none";
-//     signOutButton.style.display = "none";
-//     googleSignInButton.style.display = "flex";
-//   }
-// }
-
-// function signInWithGoogle() {
-//   const provider = new firebase.auth.GoogleAuthProvider();
-
-//   firebase
-//     .auth()
-//     .signInWithPopup(provider)
-//     .then((result) => {
-//       const user = result.user;
-//       console.log("Google user signed in:", user.displayName, user.email);
-
-//       updateUI(user);
-//     })
-//     .catch((error) => {
-//       console.error("Google sign-in error:", error);
-//     });
-// }
-
-// function signOut() {
-//   firebase
-//     .auth()
-//     .signOut()
-//     .then(() => {
-//       console.log("User signed out");
-
-//       const signInContainer = document.getElementById("signInContainer");
-//       const signOutContainer = document.getElementById("signOutContainer");
-
-//       signInContainer.style.display = "block";
-//       signOutContainer.style.display = "none";
-//     })
-//     .catch((error) => {
-//       console.error("Sign-out error:", error);
-//     });
-// }
-
-// firebase.auth().onAuthStateChanged((user) => {
-//   updateUI(user);
-// });
-
-// firebase.auth().onAuthStateChanged((user) => {
-//   if (user) {
-//     signOutButton.style.display = "block";
-//   } else {
-//     signOutButton.style.display = "none";
-//   }
-// });
-
-//// Code for notification functionality
-
 function updateAndRenderTodos() {
   getTodosFromLocalStorage();
   renderTodos();
@@ -539,6 +579,16 @@ function sendDueDateNotification(todoName, dueDate) {
   }
 }
 
+function sortTodos(todos) {
+  return todos.sort((a, b) => {
+    // Add your sorting logic here
+    // For example, sorting by due date
+    const dateA = new Date(a.dueDate);
+    const dateB = new Date(b.dueDate);
+    return dateA - dateB;
+  });
+}
+
 //// Events
 
 window.addEventListener("load", function () {
@@ -576,3 +626,5 @@ window.addEventListener("load", renderTodos());
 
 getTodosFromLocalStorage();
 renderTodos();
+updateGroupDropdown();
+renderGroupButtons();
