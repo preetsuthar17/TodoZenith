@@ -52,18 +52,17 @@ function fetchAndCache(request) {
 
       const responseToCache = response.clone();
 
-      caches.open(dynamicCacheName).then(function (cache) {
+      return caches.open(dynamicCacheName).then(function (cache) {
         cache.put(request, responseToCache);
+        return response;
       });
-
-      return response;
     })
     .catch(function (error) {
-      console.error(`[Service Worker] Fetch error: ${error}`);
+      if (error.message !== "Failed to fetch") {
+        console.error(`[Service Worker] Fetch error: ${error}`);
+      }
 
-      return caches.match(request).then(function (cachedResponse) {
-        return cachedResponse || new Response("You are offline.");
-      });
+      return new Response("You are offline.");
     });
 }
 
@@ -75,14 +74,19 @@ self.addEventListener("fetch", function (event) {
   }
 
   event.respondWith(
-    caches.match(request).then(function (cachedResponse) {
-      if (cachedResponse) {
-        console.log(`[Service Worker] Cached resource: ${request.url}`);
-        return cachedResponse;
-      }
+    caches
+      .match(request)
+      .then(function (cachedResponse) {
+        if (cachedResponse) {
+          console.log(`[Service Worker] Cached resource: ${request.url}`);
+          return cachedResponse;
+        }
 
-      return fetchAndCache(request);
-    })
+        return fetchAndCache(request);
+      })
+      .catch(function () {
+        return new Response("You are offline.");
+      })
   );
 
   event.waitUntil(
