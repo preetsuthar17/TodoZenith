@@ -48,12 +48,20 @@ self.addEventListener("fetch", function (event) {
     caches.match(event.request).then(function (response) {
       return (
         response ||
-        fetch(event.request).then(function (fetchResponse) {
-          return caches.open(dynamicCacheName).then(function (cache) {
-            cache.put(event.request.url, fetchResponse.clone());
-            return fetchResponse;
-          });
-        })
+        fetch(event.request)
+          .then(function (fetchResponse) {
+            if (!fetchResponse || fetchResponse.status !== 200) {
+              return response;
+            }
+
+            return caches.open(dynamicCacheName).then(function (cache) {
+              cache.put(event.request.url, fetchResponse.clone());
+              return fetchResponse;
+            });
+          })
+          .catch(function () {
+            return response || new Response("You are offline.");
+          })
       );
     })
   );
