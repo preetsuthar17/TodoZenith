@@ -40,7 +40,34 @@
     href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css"
     rel="stylesheet"
   />
+  <script>
+    fetch("./src/images/icons.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const icons = data.icons;
+        const manifest = {
+          name: "TodoZenith",
+          short_name: "TodoZenith",
+          start_url: "/index.html",
+          display: "standalone",
+          background_color: "#151718",
+          theme_color: "#151718",
+          icons: icons,
+        };
 
+        const jsonBlob = new Blob([JSON.stringify(manifest)], {
+          type: "application/json",
+        });
+        const manifestBlobUrl = URL.createObjectURL(jsonBlob);
+
+        const manifestLink = document.createElement("link");
+        manifestLink.rel = "manifest";
+        manifestLink.href = manifestBlobUrl;
+
+        document.head.appendChild(manifestLink);
+      })
+      .catch((error) => console.error("Error loading icons.json:", error));
+  </script>
   <body dark-mode class="mx-auto">
     <!-- Loader -->
     <div class="loader-container" id="loader">
