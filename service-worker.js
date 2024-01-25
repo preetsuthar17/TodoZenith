@@ -1,4 +1,4 @@
-const version = "v3";
+const version = "v4";
 const cacheName = `todo-zenith-${version}`;
 const dynamicCacheName = `dynamic-todo-zenith-${version}`;
 
@@ -44,23 +44,28 @@ self.addEventListener("activate", function (event) {
 });
 
 self.addEventListener("fetch", function (event) {
+  const { request } = event;
+
   event.respondWith(
-    caches.match(event.request).then(function (response) {
+    caches.match(request).then(function (cachedResponse) {
       return (
-        response ||
-        fetch(event.request)
+        cachedResponse ||
+        fetch(request)
           .then(function (fetchResponse) {
             if (!fetchResponse || fetchResponse.status !== 200) {
-              return response;
+              return cachedResponse || new Response("You are offline.");
             }
 
-            return caches.open(dynamicCacheName).then(function (cache) {
-              cache.put(event.request.url, fetchResponse.clone());
-              return fetchResponse;
+            const responseToCache = fetchResponse.clone();
+
+            caches.open(dynamicCacheName).then(function (cache) {
+              cache.put(request.url, responseToCache);
             });
+
+            return fetchResponse;
           })
           .catch(function () {
-            return response || new Response("You are offline.");
+            return cachedResponse || new Response("You are offline.");
           })
       );
     })
