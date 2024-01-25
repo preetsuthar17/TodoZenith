@@ -43,31 +43,57 @@ self.addEventListener("activate", function (event) {
   );
 });
 
+function fetchAndCache(request) {
+  return fetch(request)
+    .then(function (response) {
+      if (!response || response.status !== 200) {
+        throw new Error(`Invalid response for ${request.url}`);
+      }
+
+      const responseToCache = response.clone();
+
+      caches.open(dynamicCacheName).then(function (cache) {
+        cache.put(request, responseToCache);
+      });
+
+      return response;
+    })
+    .catch(function (error) {
+      console.error(`[Service Worker] Fetch error: ${error}`);
+      return caches.match(request);
+    });
+}
+
 self.addEventListener("fetch", function (event) {
   const { request } = event;
 
+  if (!request.url.startsWith("http")) {
+    return;
+  }
+
   event.respondWith(
     caches.match(request).then(function (cachedResponse) {
-      return (
-        cachedResponse ||
-        fetch(request)
-          .then(function (fetchResponse) {
-            if (!fetchResponse || fetchResponse.status !== 200) {
-              return cachedResponse || new Response("You are offline.");
-            }
+      if (cachedResponse) {
+        console.log(`[Service Worker] Cached resource: ${request.url}`);
+        return cachedResponse;
+      }
 
-            const responseToCache = fetchResponse.clone();
-
-            caches.open(dynamicCacheName).then(function (cache) {
-              cache.put(request.url, responseToCache);
-            });
-
-            return fetchResponse;
-          })
-          .catch(function () {
-            return cachedResponse || new Response("You are offline.");
-          })
-      );
+      return fetchAndCache(request);
     })
+  );
+
+  event.waitUntil(
+    fetch(request)
+      .then(function (response) {
+        return caches.open(cacheName).then(function (cache) {
+          console.log("[Service Worker]: Background cache update");
+          return cache.put(request, response);
+        });
+      })
+      .catch(function (error) {
+        console.error(
+          `[Service Worker] Background cache update error: ${error}`
+        );
+      })
   );
 });
