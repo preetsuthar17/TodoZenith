@@ -248,8 +248,13 @@
     </div>
 
     <!-- Notes -->
-    <div style="margin-top: 2rem; margin-bottom: 2rem">
-      <h3 class="text-2xl mb-4 text-center text-gray-300">Your Notes</h3>
+    <div style="margin-top: 4rem; margin-bottom: 3rem mb-4">
+      <h3
+        class="text-2xl mb-4 text-center text-gray-300"
+        style="margin-top: 2rem; margin-bottom: 2rem"
+      >
+        Your Notes
+      </h3>
 
       <div
         id="notesContainer"
@@ -270,13 +275,13 @@
             autocomplete="off"
             type="text"
             id="noteTitle"
-            class="form-input-color p-color rounded py-2 px-3 mb-2"
+            class="form-input-color p-color rounded py-2 px-3 mb-2 resize-x"
             placeholder="Title"
             required
           />
           <textarea
             id="noteContent"
-            class="form-input-color p-color rounded py-2 px-3"
+            class="form-input-color p-color rounded py-2 px-3 resize-y"
             placeholder="Content"
             required
           ></textarea>

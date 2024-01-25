@@ -87,6 +87,11 @@
   color: #c9c9ca;
 }
 
+#addNoteForm {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
 .addNoteDialogContent {
   background-color: #1a1d1e;
 }
@@ -244,7 +249,35 @@
   outline: none !important;
   border: none !important;
 }
+#noteTitle {
+  @media screen and (max-width: 900px) {
+    width: 40rem;
+  }
+  @media screen and (max-width: 742px) {
+    width: 30rem;
+  }
+  @media screen and (max-width: 563px) {
+    width: 20rem;
+  }
+  @media screen and (max-width: 390px) {
+    width: 15rem;
+  }
+  width: 50rem;
+}
 #noteContent {
+  @media screen and (max-width: 900px) {
+    width: 40rem;
+  }
+  @media screen and (max-width: 742px) {
+    width: 30rem;
+  }
+  @media screen and (max-width: 563px) {
+    width: 20rem;
+  }
+  @media screen and (max-width: 390px) {
+    width: 15rem;
+  }
+  width: 50rem;
   height: 20rem;
 }
 #confirmationDialog {
