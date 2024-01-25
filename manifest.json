@@ -1,0 +1,20 @@
+{
+  "name": "TodoZenith",
+  "short_name": "TodoZenith",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#151718",
+  "theme_color": "#151718",
+  "icons": [
+    {
+      "src": "src/images/icon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "src/images/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

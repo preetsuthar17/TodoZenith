@@ -35,7 +35,14 @@ function renderNotes() {
     notes.forEach((note, index) => {
       if (note && note.title) {
         const card = document.createElement("div");
-        card.className = `note-card rounded-lg md:w-1/2 w-1/2 p-4`;
+        card.classList.add(
+          "note-card",
+          "lg:w-1/3",
+          "md:w-1/2",
+          "w-full",
+          "rounded-lg"
+        );
+
         card.setAttribute("data-index", index);
 
         card.innerHTML = `

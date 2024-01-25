@@ -1,8 +1,11 @@
 .note-card {
   background-color: #1a1d1e;
   padding: 1rem;
-  width: 16rem !important;
   flex-direction: row;
+}
+
+.notes-component {
+  margin-top: 4rem !important;
 }
 
 .note-card-heading {

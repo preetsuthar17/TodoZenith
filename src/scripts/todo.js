@@ -4,6 +4,7 @@ let editingMode = false;
 let deletedTodos = [];
 let groups = JSON.parse(localStorage.getItem("groups")) || [];
 let selectedGroup = null || "No groups";
+let deferredPrompt;
 
 const year = new Date().getFullYear();
 
@@ -15,6 +16,25 @@ rel="noopener noreferrer"
 target="_blank"
 >@preetsuthar17</a
 >`;
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+  document.getElementById("installBtn").classList.remove("hidden");
+});
+
+function installPWA() {
+  document.getElementById("installBtn").classList.add("hidden");
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === "accepted") {
+      console.log("User accepted the A2HS prompt");
+    } else {
+      console.log("User dismissed the A2HS prompt");
+    }
+    deferredPrompt = null;
+  });
+}
 
 //// Code for Todo functionality
 
