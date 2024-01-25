@@ -60,7 +60,10 @@ function fetchAndCache(request) {
     })
     .catch(function (error) {
       console.error(`[Service Worker] Fetch error: ${error}`);
-      return caches.match(request);
+
+      return caches.match(request).then(function (cachedResponse) {
+        return cachedResponse || new Response("You are offline.");
+      });
     });
 }
 
