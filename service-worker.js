@@ -1,4 +1,4 @@
-const version = "v2";
+const version = "v3";
 const cacheName = `todo-zenith-${version}`;
 const dynamicCacheName = `dynamic-todo-zenith-${version}`;
 
